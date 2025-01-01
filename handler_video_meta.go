@@ -116,5 +116,12 @@ func (cfg *apiConfig) handlerVideosRetrieve(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	for i := range videos {
+		if videos[i].ThumbnailURL != nil && len(*videos[i].ThumbnailURL) > 200 {
+			truncated := (*videos[i].ThumbnailURL)[:200]
+			videos[i].ThumbnailURL = &truncated
+		}
+	}
+
 	respondWithJSON(w, http.StatusOK, videos)
 }
